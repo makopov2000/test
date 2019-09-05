@@ -1,0 +1,82 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Dashboard</h1>
+  <mat-grid-list cols="2" rowHeight="350px">
+    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            {{card.title}}
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item>Expand</button>
+              <button mat-menu-item>Remove</button>
+            </mat-menu>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+
+
+
+          <h2>FormBuilder</h2>
+          <form [formGroup]="form">
+            <div>
+              <button (click)="addAddress()">Add Address</button>
+              <button (click)="setNew()">Delete Address</button>
+              <button (click)="resetAddress()">Reset Address</button>
+              <button (click)="getAddress()">Console Address</button>
+            </div>
+
+            <ng-container>
+              <input placeholder="First Name" formControlName="firstName">
+              <input placeholder="Last Name" formControlName="lastName">
+            </ng-container>
+
+            <!--<div formArrayName="credentials" *ngFor="let creds of form.controls.credentials?.value; let i = index">-->
+            <div formArrayName="addresses" *ngFor="let address of form.get('addresses').controls; let i = index">
+              <ng-container [formGroupName]="i">
+                <input placeholder="Address Line 1" formControlName="address1" type="text">
+                <input placeholder="Address Line 2" formControlName="address2">
+                <input placeholder="City" formControlName="city">
+                <input placeholder="State" formControlName="state">
+              </ng-container>
+            </div>
+
+
+          </form>
+
+
+
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <div style="text-align:center">
+    <h1>
+      {{ title }}!
+    </h1>
+  </div>
+  <div class="container">
+    <div class="text-center mt-5">
+      <div class="row">
+        <div class="col-md-6">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <input type="checkbox" [(ngModel)]="masterSelected" name="list_name" value="m1" (change)="checkUncheckAll()" /> <strong>Select/ Unselect All</strong>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of checklist">
+              <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.id}}" (change)="isAllSelected()" />
+              {{item.value}}
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <code>{{checkedList}}</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
